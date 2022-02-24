@@ -17,13 +17,21 @@ class MyWidget(QMainWindow):
 
     def select_data(self):
         query = self.textEdit.toPlainText()
+        a = ['ID', 'Название', 'Степень обжарки', 'Состояние', 'Описание', 'Цена (руб.)', 'Объем упаковки (г.)']
         res = self.connection.cursor().execute(query).fetchall()
-        self.tableWidget.setColumnCount(5)
+        self.tableWidget.setColumnCount(7)
         self.tableWidget.setRowCount(0)
+        for i in range(7):
+            self.tableWidget.setHorizontalHeaderItem(i, QTableWidgetItem(a[i]))
         for i, row in enumerate(res):
             self.tableWidget.setRowCount(
                 self.tableWidget.rowCount() + 1)
             for j, elem in enumerate(row):
+                if j == 3:
+                    if elem == 1:
+                        elem = 'В зернах'
+                    elif elem == 0:
+                        elem = 'Растворимый'
                 self.tableWidget.setItem(
                     i, j, QTableWidgetItem(str(elem)))
 
